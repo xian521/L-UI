@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>头部-筛选条 </title>
+    <link rel="stylesheet" href="../lui.css">
+    <style>
+        /*列表样式*/
+        ul{
+            padding: 0;
+            margin: 0;
+        }
+        li{
+            list-style: none;
+            padding:11px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        /*头部筛选条样式*/
+        .select-item{
+            padding: 6px 0;
+            font-size: 0;
+            border-bottom: 1px solid #e5e5e5;
+            position: fixed;
+            width: 100%;
+            z-index: 9;
+            background: #fff;
+        }
+        .select-item>div{
+            font-size: 14px;
+            width: 33%;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            color: #333;
+            border-right: 1px solid #e5e5e5;
+        }
+        .select-item>div:last-child{
+            border-right: 0;
+        }
+        .select-item>div span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .select-item>div img{
+            width: 7px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .select-item .active{
+            color: #d22330;
+        }
+        .select-rank,
+        .provincial-level,
+        .city-level{
+            position: fixed;
+            width: 100%;
+            z-index: 9;
+            top: 35px;
+        }
+        .showHide{
+            display: none;
+        }
+        .model{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.3);
+            z-index: 0;
+        }
+        .select-rank ul,
+        .provincial-level ul,
+        .city-level ul{
+            height: 200px;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 9;
+            background: #fff;
+        }
+        .select-rank li,
+        .provincial-level li,
+        .city-level li{
+            font-size: 14px;
+            color: #333;
+            padding: 10px 15px 9px 15px;
+        }
+        .animation {
+            transform: rotateZ(180deg);
+            transition: transform 0.4s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <!-- 三个选项 -->
+        <div class="select-item">
+            <div v-for="item in tabs" :data-class="item.tabClass" :data-open="item.listOpen">
+                <span>{{ item.name }}</span>
+                <img src="http://img0.imgtn.bdimg.com/it/u=2147830722,3858436156&fm=27&gp=0.jpg" />
+            </div>
+        </div>
+        <!-- 级别弹框 -->
+        <div class="select-rank showHide">
+            <div class="model"></div>
+            <ul class="">
+                <li>全部</li>
+                <li>淄博体育局</li>
+                <li>济南体育局</li>
+                <li>青岛体育局</li>
+                <li>潍坊体育局</li>
+                <li>威海体育局</li>
+                <li>菏泽体育局</li>
+            </ul>
+        </div>
+        <!-- 省级弹框 -->
+        <div class="provincial-level showHide">
+            <div class="model"></div>
+            <ul>
+                <li>全部1</li>
+                <li>淄博体育局1</li>
+                <li>济南体育局1</li>
+                <li>青岛体育局1</li>
+                <li>潍坊体育局1</li>
+                <li>威海体育局 1</li>
+                <li>菏泽体育局1</li>
+            </ul>
+        </div>
+        <!-- 市级弹框 -->
+        <div class="city-level showHide">
+            <div class="model"></div>
+            <ul>
+                <li>全部2</li>
+                <li>淄博体育局2</li>
+                <li>济南体育局2</li>
+                <li>青岛体育局2</li>
+                <li>潍坊体育局2</li>
+                <li>威海体育局2</li>
+                <li>菏泽体育局2</li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../lui.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            data: {
+                tabs: [
+                    {
+                        name: '级别',
+                        tabClass: 'select-rank',
+                        listOpen: '0'
+                    },
+                    {
+                        name: '省级',
+                        tabClass: 'provincial-level',
+                        listOpen: '0'
+                    },
+                    {
+                        name: '市级',
+                        tabClass: 'city-level',
+                        listOpen: '0'
+                    }
+                ]
+            }
+        }).$mount("#main");
+        /* 点击切换 */
+        $(".select-item").on("click","div",function(){
+            var shouClass = $(this).attr("data-class");
+            if($(this).attr("data-open")==1){
+                $("body").css("overflow-y","scroll");
+                $("."+shouClass).hide();
+                $(this).children("img").removeClass("animation");
+                $(this).attr("data-open","0");
+            }else{
+                $("body").css("overflow","hidden");
+                $(".select-item>div").attr("data-open",'0');
+                $(this).attr("data-open","1");
+                $(this).addClass("active").siblings().removeClass("active");
+                $(".select-item img").attr("src","http://img0.imgtn.bdimg.com/it/u=2147830722,3858436156&fm=27&gp=0.jpg");
+                $(this).children("img").attr("src","https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1536752515995&di=06ce6dbee050936ced7459cf03aa5342&imgtype=0&src=http%3A%2F%2Freso2.yiihuu.com%2F1325752-z.jpg");
+                $(".showHide").hide();
+                $("."+shouClass).show();
+                $(".select-item img").removeClass("animation");
+                $(this).children("img").addClass("animation");
+            }
+        });
+        /* 点击第一个列表 */
+        $(".select-rank").on("click","li",function(){
+            $("body").css("overflow-y","scroll");
+            $(".select-item>div:first-child>span").html($(this).html().substr(0,4));
+            $(this).addClass("red-color").siblings().removeClass("red-color");
+            $(".select-item>div:first-child").attr("data-open","0");
+            $(".select-item>div:first-child img").removeClass("animation");
+            $(".select-rank").hide();
+        });
+        /* 点击第二个列表 */
+        $(".provincial-level").on("click","li",function(){
+            $("body").css("overflow-y","scroll");
+            $(".select-item>div:nth-child(2)>span").html($(this).html().substr(0,4));
+            $(this).addClass("red-color").siblings().removeClass("red-color");
+            $(".select-item>div:nth-child(2)").attr("data-open","0");
+            $(".select-item>div:nth-child(2) img").removeClass("animation");
+            $(".provincial-level").hide();
+        });
+        /* 点击第三个列表 */
+        $(".city-level").on("click","li",function(){
+            $("body").css("overflow-y","scroll");
+            $(".select-item>div:last-child>span").html($(this).html().substr(0,4));
+            $(this).addClass("red-color").siblings().removeClass("red-color");
+            $(".select-item>div:last-child").attr("data-open","0");
+            $(".select-item>div:last-child img").removeClass("animation");
+            $(".city-level").hide();
+        });
+    </script>
+</body>
+</html>

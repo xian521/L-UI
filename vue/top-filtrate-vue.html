@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>头部-筛选条 </title>
+    <link rel="stylesheet" href="../lui.css">
+    <style>
+        /*列表样式*/
+        ul{
+            padding: 0;
+            margin: 0;
+        }
+        li{
+            list-style: none;
+            padding:11px 15px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+        /*头部筛选条样式*/
+        .select-item{
+            padding: 6px 0;
+            font-size: 0;
+            border-bottom: 1px solid #e5e5e5;
+            position: fixed;
+            width: 100%;
+            z-index: 9;
+            background: #fff;
+        }
+        .select-item>div{
+            font-size: 14px;
+            width: 33%;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            color: #333;
+            border-right: 1px solid #e5e5e5;
+        }
+        .select-item>div:last-child{
+            border-right: 0;
+        }
+        .select-item>div span{
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .select-item>div img{
+            width: 7px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .select-item .active{
+            color: #d22330;
+        }
+        .select-rank,
+        .provincial-level,
+        .city-level{
+            position: fixed;
+            width: 100%;
+            z-index: 9;
+            top: 35px;
+        }
+        .showHide{
+            display: none;
+        }
+        .model{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.3);
+            z-index: 0;
+        }
+        .select-rank ul,
+        .provincial-level ul,
+        .city-level ul{
+            height: 200px;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+            z-index: 9;
+            background: #fff;
+        }
+        .select-rank li,
+        .provincial-level li,
+        .city-level li{
+            font-size: 14px;
+            color: #333;
+            padding: 10px 15px 9px 15px;
+        }
+        .animation {
+            transform: rotateZ(180deg);
+            transition: transform 0.4s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <!-- 三个选项 -->
+        <div class="select-item">
+            <div v-for="(item,index) in tabs" :class="{active : index == tabIndex}" @click="tabToggle(index)" :data-class="item.tabClass" >
+                <span>{{ item.name }}</span>
+                <img :src="index==tabIndex ? selectImg : noSelectImg" />
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+    <script src="../lui.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            data: {
+                tabs: [
+                    {
+                        name: '级别',
+                        tabClass: 'select-rank',
+                    },
+                    {
+                        name: '省级',
+                        tabClass: 'provincial-level',
+                    },
+                    {
+                        name: '市级',
+                        tabClass: 'city-level',
+                    }
+                ],
+                tabIndex: 0,
+                noSelectImg: 'http://img0.imgtn.bdimg.com/it/u=2147830722,3858436156&fm=27&gp=0.jpg',
+                selectImg: 'http://img2.imgtn.bdimg.com/it/u=1115363066,3392455516&fm=27&gp=0.jpg'
+            },
+            methods: {
+                tabToggle (index) {
+                    this.tabIndex !== index && this.tabIndex = index;
+                }
+            }
+        }).$mount("#main");
+    </script>
+</body>
+</html>
