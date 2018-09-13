@@ -50,16 +50,11 @@
         .select-item .active{
             color: #d22330;
         }
-        .select-rank,
-        .provincial-level,
-        .city-level{
+        .select-rank{
             position: fixed;
             width: 100%;
             z-index: 9;
             top: 35px;
-        }
-        .showHide{
-            display: none;
         }
         .model{
             position: fixed;
@@ -68,9 +63,7 @@
             background: rgba(0,0,0,.3);
             z-index: 0;
         }
-        .select-rank ul,
-        .provincial-level ul,
-        .city-level ul{
+        .select-rank ul{
             height: 200px;
             overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
@@ -78,27 +71,30 @@
             z-index: 9;
             background: #fff;
         }
-        .select-rank li,
-        .provincial-level li,
-        .city-level li{
+        .select-rank li{
             font-size: 14px;
             color: #333;
             padding: 10px 15px 9px 15px;
         }
-        .animation {
-            transform: rotateZ(180deg);
-            transition: transform 0.4s ease-out;
-        }
+
+
     </style>
 </head>
 <body>
     <div id="main">
         <!-- 三个选项 -->
         <div class="select-item">
-            <div v-for="(item,index) in tabs" :class="{active : index == tabIndex}" @click="tabToggle(index)" :data-class="item.tabClass" >
+            <div v-for="(item,index) in tabs" :class="{active : index == tabIndex}" @click="tabToggle(index,item.tabClass)" >
                 <span>{{ item.name }}</span>
                 <img :src="index==tabIndex ? selectImg : noSelectImg" />
             </div>
+        </div>
+        <!-- 级别弹框 -->
+        <div class="select-rank" v-show="forLists">
+            <div class="model"></div>
+            <ul class="">
+                <li v-for="item in forLists">{{ item.name }}</li>
+            </ul>
         </div>
     </div>
     <script src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
@@ -109,24 +105,114 @@
                 tabs: [
                     {
                         name: '级别',
-                        tabClass: 'select-rank',
+                        tabClass: 'listOne',
                     },
                     {
                         name: '省级',
-                        tabClass: 'provincial-level',
+                        tabClass: 'listTwo',
                     },
                     {
                         name: '市级',
-                        tabClass: 'city-level',
+                        tabClass: 'listThree',
                     }
                 ],
-                tabIndex: 0,
+                listOne: [
+                    {
+                      name: '全部'
+                    },
+                    {
+                        name: '济南体育局'
+                    },
+                    {
+                        name: '青岛体育局'
+                    },
+                    {
+                        name: '潍坊体育局'
+                    },
+                    {
+                        name: '威海体育局'
+                    },
+                    {
+                        name: '菏泽体育局 '
+                    }
+                ],
+                listTwo: [
+                    {
+                        name: '全部2'
+                    },
+                    {
+                        name: '济南体育局2'
+                    },
+                    {
+                        name: '青岛体育局2'
+                    },
+                    {
+                        name: '潍坊体育局2'
+                    },
+                    {
+                        name: '威海体育局2'
+                    },
+                    {
+                        name: '菏泽体育局2'
+                    }
+                ],
+                listThree: [
+                    {
+                        name: '全部3'
+                    },
+                    {
+                        name: '济南体育局3'
+                    },
+                    {
+                        name: '青岛体育局3'
+                    },
+                    {
+                        name: '潍坊体育局3'
+                    },
+                    {
+                        name: '威海体育局3'
+                    },
+                    {
+                        name: '菏泽体育局3'
+                    },
+                    {
+                        name: '济南体育局3'
+                    },
+                    {
+                        name: '青岛体育局3'
+                    },
+                    {
+                        name: '潍坊体育局3'
+                    },
+                    {
+                        name: '威海体育局3'
+                    },
+                    {
+                        name: '菏泽体育局3'
+                    }
+                ],
+                forLists: false,
+                tabIndex: -1,
                 noSelectImg: 'http://img0.imgtn.bdimg.com/it/u=2147830722,3858436156&fm=27&gp=0.jpg',
                 selectImg: 'http://img2.imgtn.bdimg.com/it/u=1115363066,3392455516&fm=27&gp=0.jpg'
             },
             methods: {
-                tabToggle (index) {
-                    (this.tabIndex !== index) && (this.tabIndex = index);
+                tabToggle (index,forList) {
+
+                    if (forList == "listOne"){
+                        this.forLists = this.listOne;
+                    }else if(forList == "listTwo"){
+                        this.forLists = this.listTwo;
+                    }else{
+                        this.forLists = this.listThree;
+                    }
+                    if(this.tabIndex !== index){
+                        this.tabIndex = index;
+                    }else{
+                        console.log("123");
+                        this.forLists = false;
+                        this.tabIndex = -1;
+                    }
                 }
             }
         }).$mount("#main");
